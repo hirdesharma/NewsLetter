@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bf204d7b-c90e-43c9-8f45-51506de3cdb3" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/notification-service">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/order-service">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="microservices-parent" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="microservices-parent" type="f1a62948:ProjectNode" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Record" />
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2krlGh3rhHbjRaJ5i6WarJdnBSA" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Application.NotificationServiceApplication.executor": "Run",
+    "Application.SubscriptionServiceApplication.executor": "Run",
+    "Application.UserServiceApplication.executor": "Run",
+    "Application.UserSubscriptionServiceApplication.executor": "Run",
+    "Application.com.example.user_service.UserServiceApplication.executor": "Run",
+    "Gradle.Build microservices-parent.executor": "Run",
+    "Gradle.EmailSenderServiceTest.executor": "Run",
+    "Gradle.EmailServiceTest.executor": "Run",
+    "Gradle.EmailServiceTest.testSendSubscriptionNotification.executor": "Run",
+    "Gradle.KafkaSubscriptionListenersTest.executor": "Run",
+    "Gradle.KafkaUserRegistrationListenerTest.executor": "Run",
+    "Gradle.KafkaUserRegistrationListenerTest.testListenerSuccess.executor": "Run",
+    "Gradle.RedisServiceTest.executor": "Run",
+    "Gradle.RedisServiceTest.testGetReturnsValue.executor": "Run",
+    "Gradle.SubscriptionServiceClientTest.executor": "Run",
+    "Gradle.SubscriptionServiceTest.executor": "Run",
+    "Gradle.SubscriptionServiceTest.testAddSubscriptionWithNullSubscription.executor": "Run",
+    "Gradle.UserServiceTest.executor": "Run",
+    "Gradle.UserServiceTest.testAuthenticateSuccess.executor": "Run",
+    "Gradle.UserServiceTest.testAuthenticateUserNotFound.executor": "Run",
+    "Gradle.UserServiceTest.testRegisterUserFailure.executor": "Run",
+    "Gradle.UserServiceTest.testRegisterUserSuccess.executor": "Run",
+    "Gradle.UserServiceTest.testRegisterUser_Failure.executor": "Run",
+    "Gradle.UserServiceTest.testRegisterUser_Success.executor": "Run",
+    "Gradle.UserSubscriptionServiceTest.executor": "Run",
+    "Gradle.UserSubscriptionServiceTest.testGetUserSubscriptions.executor": "Run",
+    "Gradle.UserSubscriptionServiceTest.testSubscribe.executor": "Debug",
+    "Gradle.UserSubscriptionTest.executor": "Run",
+    "Gradle.microservices-parent [bootJar].executor": "Run",
+    "Gradle.microservices-parent [dependencies].executor": "Run",
+    "Gradle.microservices-parent:notification-service [:notification-service:NotificationServiceApplication.main()].executor": "Run",
+    "Gradle.microservices-parent:subscription-service [:subscription-service:SubscriptionServiceApplication.main()].executor": "Run",
+    "Gradle.microservices-parent:user-service [:user-service:UserServiceApplication.main()].executor": "Run",
+    "Gradle.microservices-parent:user-subscription-service [:user-subscription-service:UserSubscriptionServiceApplication.main()].executor": "Run",
+    "Gradle.redis.executor": "Run",
+    "Gradle.redis.send.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "feature/notification-service",
+    "ignore.preview.features.used": "true",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/VICTUS/Downloads/microservices-parent/notification-service/src/test/java/com/example/notification",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\VICTUS\Downloads\microservices-parent\notification-service\src\test\java\com\example\notification" />
+      <recent name="C:\Users\VICTUS\Downloads\microservices-parent\notification-service\src\main\java\com\example\notification" />
+      <recent name="C:\Users\VICTUS\Downloads\microservices-parent\subscription-service\src\test\java\com\example\user_subscription_service\service" />
+      <recent name="C:\Users\VICTUS\Downloads\microservices-parent\subscription-service\src\main\java\com\example\subscription_service" />
+      <recent name="C:\Users\VICTUS\Downloads\microservices-parent\user-service\src\main\java\com\example\user_service" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\VICTUS\Downloads\microservices-parent" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.example.user_subscription_service.service" />
+      <recent name="com.example.user_subscription_service.model" />
+      <recent name="com.example.user_service.service" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.user_subscription_service.model" />
+      <recent name="com.example.user_service.service" />
+      <recent name="com.example.user_service" />
+      <recent name="com.example.user_subscription_service" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="SubscriptionServiceApplication" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Gradle.KafkaUserRegistrationListenerTest">
+    <configuration name="NotificationServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="21" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.example.notification.NotificationServiceApplication" />
+      <module name="microservices-parent.notification-service.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.user_service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="21" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.example.subscription_service.SubscriptionServiceApplication" />
+      <module name="microservices-parent.subscription-service.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmailSenderServiceTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":notification-service:test" />
+            <option value="--tests" />
+            <option value="&quot;com.example.notification.service.EmailSenderServiceTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="KafkaSubscriptionListenersTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":notification-service:test" />
+            <option value="--tests" />
+            <option value="&quot;com.example.notification.listener.KafkaSubscriptionListenersTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="KafkaUserRegistrationListenerTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":notification-service:test" />
+            <option value="--tests" />
+            <option value="&quot;com.example.notification.listener.KafkaUserRegistrationListenerTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="KafkaUserRegistrationListenerTest.testListenerSuccess" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":notification-service:test" />
+            <option value="--tests" />
+            <option value="&quot;com.example.notification.listener.KafkaUserRegistrationListenerTest.testListenerSuccess&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.NotificationServiceApplication" />
+      <item itemvalue="Gradle.EmailSenderServiceTest" />
+      <item itemvalue="Gradle.KafkaSubscriptionListenersTest" />
+      <item itemvalue="Gradle.KafkaUserRegistrationListenerTest" />
+      <item itemvalue="Gradle.KafkaUserRegistrationListenerTest.testListenerSuccess" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.KafkaUserRegistrationListenerTest" />
+        <item itemvalue="Application.NotificationServiceApplication" />
+        <item itemvalue="Gradle.KafkaUserRegistrationListenerTest.testListenerSuccess" />
+        <item itemvalue="Gradle.EmailSenderServiceTest" />
+        <item itemvalue="Gradle.KafkaSubscriptionListenersTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bf204d7b-c90e-43c9-8f45-51506de3cdb3" name="Changes" comment="" />
+      <created>1724049483394</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1724049483394</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="com.mysql.cj.jdbc.exceptions.MysqlDataTruncation" package="com.mysql.cj.jdbc.exceptions" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/user-service/src/main/java/com/example/user_service/configure/KafkaProducerConfig.java</url>
+          <line>14</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/user-service/src/main/java/com/example/user_service/configure/KafkaConfig.java</url>
+          <line>7</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/user-service/src/main/java/com/example/user_service/configure/KafkaConsumerConfig.java</url>
+          <line>23</line>
+          <properties class="com.example.user_service.configure.KafkaConsumerConfig" method="consumerConfig">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/user-service/src/main/java/com/example/user_service/configure/KafkaProducerConfig.java</url>
+          <line>19</line>
+          <properties class="com.example.user_service.configure.KafkaProducerConfig" method="producerConfig">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/user-service/src/main/java/com/example/user_service/configure/KafkaConfig.java</url>
+          <line>10</line>
+          <properties class="com.example.user_service.configure.KafkaConfig" method="userMail">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
