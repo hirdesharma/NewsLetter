@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/notification-service/microservices-parent.notification-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/notification-service/microservices-parent.notification-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/microservices-parent.order-service.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/microservices-parent.order-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/microservices-parent.order-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/microservices-parent.order-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/microservices-parent.order-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/microservices-parent.order-service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/payment-service/microservices-parent.payment-service.iml" filepath="$PROJECT_DIR$/.idea/modules/payment-service/microservices-parent.payment-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/payment-service/microservices-parent.payment-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/payment-service/microservices-parent.payment-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/payment-service/microservices-parent.payment-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/payment-service/microservices-parent.payment-service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subscription-service/microservices-parent.subscription-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/subscription-service/microservices-parent.subscription-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/user-service/microservices-parent.user-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/user-service/microservices-parent.user-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/user-subscription-service/microservices-parent.user-subscription-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/user-subscription-service/microservices-parent.user-subscription-service.main.iml" />
+    </modules>
+  </component>
+</project>

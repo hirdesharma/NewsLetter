@@ -1,0 +1,3 @@
+rootProject.name = 'microservices-parent'
+
+include 'notification-service' , 'user-subscription-service' , 'subscription-service' , 'user-service'
