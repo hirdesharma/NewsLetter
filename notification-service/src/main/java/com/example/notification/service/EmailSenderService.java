@@ -1,6 +1,7 @@
 package com.example.notification.service;
 
 import com.example.notification.exception.NotificationServiceException;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -17,11 +18,10 @@ public class EmailSenderService {
 
   public final void sendEmail(final String toEmail, final String body) {
     try {
-      if (toEmail == null || toEmail.trim().isEmpty()) {
+      if (Objects.isNull(toEmail) || toEmail.trim().isEmpty()) {
         System.out.println("Email address is invalid.");
         return;
       }
-
       final SimpleMailMessage message = new SimpleMailMessage();
       message.setFrom(fromEmail);
       message.setTo(toEmail);

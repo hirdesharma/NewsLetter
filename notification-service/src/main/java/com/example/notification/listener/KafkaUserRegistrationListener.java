@@ -17,10 +17,10 @@ public class KafkaUserRegistrationListener {
 
   @KafkaListener(topics = "${spring.kafka.topic.registrationNotify}",
                  groupId = "${spring.kafka.group.notification-group}")
-  void listener(String data) throws Exception {
+  void listener(String data) {
     try {
       final JsonNode jsonNode = objectMapper.readTree(data);
-      final String userId = jsonNode.get("userId").asText();
+      final String userId = jsonNode.get("id").asText();
       final String email = jsonNode.get("email").asText();
 
       System.out.println("Processed subscription for user: " + userId);
