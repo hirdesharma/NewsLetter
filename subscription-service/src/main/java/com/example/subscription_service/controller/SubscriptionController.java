@@ -35,7 +35,7 @@ public class SubscriptionController implements SubscriptionControllerInterface {
   public final Subscription addSubscription(@Valid @RequestBody final Subscription subscription,
                                             @RequestHeader(
                                                 "Authorization") final String authorizationHeader) {
-    String jwtToken = authorizationHeader.substring(7);
+    final String jwtToken = authorizationHeader.substring(7);
     return addSubscriptionService.addSubscription(subscription, jwtToken);
   }
 

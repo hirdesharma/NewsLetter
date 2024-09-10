@@ -1,6 +1,8 @@
 package com.example.subscription_service.service;
 
+import com.example.subscription_service.dto.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -12,25 +14,27 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
-public class ExternalService {
+public class ExternalService implements ExternalServiceInterface {
 
   private final RestTemplate restTemplate;
 
-  public final boolean fetchSubscription(String jwtToken) {
+  @Override
+  public final User fetchSubscription(final String jwtToken) {
     try {
-      HttpHeaders headers = new HttpHeaders();
+      final HttpHeaders headers = new HttpHeaders();
       headers.set("Authorization", "Bearer " + jwtToken);
 
-      HttpEntity<String> entity = new HttpEntity<>(headers);
+      final HttpEntity<String> entity = new HttpEntity<>(headers);
 
-      ResponseEntity<Boolean> response = restTemplate.exchange(
+      final ResponseEntity<User> user = restTemplate.exchange(
           "http://localhost:8080/api/users/auth",
           HttpMethod.GET,
           entity,
-          Boolean.class
+          new ParameterizedTypeReference<User>() {
+          }
       );
 
-      return Boolean.TRUE.equals(response.getBody());
+      return user.getBody();
     } catch (HttpClientErrorException.Unauthorized e) {
       throw new RuntimeException("User is not authenticated: Unauthorized", e);
     } catch (RestClientException e) {

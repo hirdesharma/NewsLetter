@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 public class RestTemplateConfig {
 
   @Bean
-  public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+  public RestTemplate restTemplate(final RestTemplateBuilder restTemplateBuilder) {
     return restTemplateBuilder
         .setConnectTimeout(Duration.ofSeconds(5))  // Connection timeout
         .setReadTimeout(Duration.ofSeconds(5))     // Read timeout

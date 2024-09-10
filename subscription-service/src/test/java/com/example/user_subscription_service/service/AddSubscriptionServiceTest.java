@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.example.subscription_service.dto.User;
 import com.example.subscription_service.model.Subscription;
 import com.example.subscription_service.repository.SubscriptionRepository;
 import com.example.subscription_service.service.AddSubscriptionService;
@@ -40,8 +41,10 @@ class AddSubscriptionServiceTest {
     Subscription subscription = new Subscription();
     subscription.setId(1L);
 
-    // Mocking the external service to return true (user is authenticated)
-    when(externalService.fetchSubscription(mockedJwtToken)).thenReturn(true);
+    // Mocking the external service to return a User with ROLE_ADMIN
+    User mockUser = new User();
+    mockUser.setRole("ROLE_ADMIN");
+    when(externalService.fetchSubscription(mockedJwtToken)).thenReturn(mockUser);
 
     when(subscriptionRepository.findById(subscription.getId())).thenReturn(Optional.empty());
     when(subscriptionRepository.save(subscription)).thenReturn(subscription);
@@ -67,8 +70,10 @@ class AddSubscriptionServiceTest {
     Subscription subscription = new Subscription();
     subscription.setId(1L);
 
-    // Mocking the external service to return true (user is authenticated)
-    when(externalService.fetchSubscription(mockedJwtToken)).thenReturn(true);
+    // Mocking the external service to return a User with ROLE_ADMIN
+    User mockUser = new User();
+    mockUser.setRole("ROLE_ADMIN");
+    when(externalService.fetchSubscription(mockedJwtToken)).thenReturn(mockUser);
 
     when(subscriptionRepository.findById(subscription.getId())).thenReturn(
         Optional.of(subscription));
@@ -82,17 +87,35 @@ class AddSubscriptionServiceTest {
   }
 
   @Test
-  void testAddSubscriptionNotAuthenticated() {
+  void testAddSubscriptionNotAdmin() {
     Subscription subscription = new Subscription();
     subscription.setId(1L);
 
-    // Mocking the external service to return false (user is not authenticated)
-    when(externalService.fetchSubscription(mockedJwtToken)).thenReturn(false);
+    // Mocking the external service to return a User with ROLE_USER
+    User mockUser = new User();
+    mockUser.setRole("ROLE_USER");
+    when(externalService.fetchSubscription(mockedJwtToken)).thenReturn(mockUser);
 
     RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
       addSubscriptionService.addSubscription(subscription, mockedJwtToken);
     });
 
-    assertEquals("you are not authenticated to do this", thrown.getMessage());
+    assertEquals("you are not authenticated to add new subscription", thrown.getMessage());
+  }
+
+  @Test
+  void testAddSubscriptionNotAuthenticated() {
+    Subscription subscription = new Subscription();
+    subscription.setId(1L);
+
+    // Mocking the external service to throw an exception (user not authenticated)
+    when(externalService.fetchSubscription(mockedJwtToken))
+        .thenThrow(new RuntimeException("User is not authenticated: Unauthorized"));
+
+    RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
+      addSubscriptionService.addSubscription(subscription, mockedJwtToken);
+    });
+
+    assertEquals("User is not authenticated: Unauthorized", thrown.getMessage());
   }
 }

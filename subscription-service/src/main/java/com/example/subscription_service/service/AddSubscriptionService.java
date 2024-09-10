@@ -15,12 +15,13 @@ public class AddSubscriptionService implements AddSubscriptionServiceInterface {
   private final ExternalService externalService;
 
   @Override
-  public final Subscription addSubscription(final Subscription subscription, String jwtToken) {
+  public final Subscription addSubscription(final Subscription subscription,
+                                            final String jwtToken) {
     if (Objects.isNull(subscription)) {
       throw new IllegalArgumentException("Subscription cannot be null");
     }
-    if (!externalService.fetchSubscription(jwtToken)) {
-      throw new RuntimeException("you are not authenticated to do this");
+    if (!externalService.fetchSubscription(jwtToken).getRole().equals("ROLE_ADMIN")) {
+      throw new RuntimeException("you are not authenticated to add new subscription");
     }
     // Check if subscription with the given ID already exists
     Optional<Subscription> existingSubscription = subscriptionRepository.findById(

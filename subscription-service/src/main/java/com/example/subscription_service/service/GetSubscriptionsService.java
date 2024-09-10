@@ -13,7 +13,7 @@ public class GetSubscriptionsService implements GetSubscriptionsServiceInterface
   private final SubscriptionRepository subscriptionRepository;
 
   @Override
-  public final List<Subscription> getAllSubscriptions(Sort sort) {
+  public final List<Subscription> getAllSubscriptions(final Sort sort) {
     return subscriptionRepository.findAll(sort);
   }
 

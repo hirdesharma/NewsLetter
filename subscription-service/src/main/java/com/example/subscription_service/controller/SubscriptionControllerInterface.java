@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 public interface SubscriptionControllerInterface {
-//  Subscription addSubscription(@RequestBody Subscription subscription);
-
   @PostMapping
   @ResponseStatus(HttpStatus.OK)
   Subscription addSubscription(@Valid @RequestBody Subscription subscription,
