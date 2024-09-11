@@ -12,14 +12,15 @@ public class GetUserByIdService implements GetUserByIdServiceInterface {
   private final UserRepository userRepository;
   private final RedisService redisService;
 
+  @Override
   public final User getUserById(final Long id) {
     final String cacheKey = "user:" + id;
-    Optional<User> cachedUser = redisService.get(cacheKey, User.class);
+    final Optional<User> cachedUser = redisService.get(cacheKey, User.class);
 
     if (cachedUser.isPresent()) {
       return cachedUser.get();
     }
-    User user = userRepository.findById(id)
+    final User user = userRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
 
     redisService.set(cacheKey, user, 6000L);

@@ -1,11 +1,11 @@
 package com.example.user_service.controller;
 
-import com.example.user_service.jwtconfig.JwtUtil;
 import com.example.user_service.model.User;
 import com.example.user_service.service.GetUserByIdServiceInterface;
 import com.example.user_service.service.UserAuthenticationServiceInterface;
 import com.example.user_service.service.UserRegistrationServiceInterface;
 import jakarta.validation.Valid;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +24,6 @@ public class UserController implements UserControllerInterface {
   private final UserRegistrationServiceInterface userRegistrationService;
   private final GetUserByIdServiceInterface getUserByIdService;
   private final UserAuthenticationServiceInterface userAuthenticationService;
-  private final JwtUtil jwtUtil;
 
   @Override
   @PostMapping("/register")
@@ -41,7 +40,7 @@ public class UserController implements UserControllerInterface {
   }
 
   @Override
-  @GetMapping("/{userId}")
+  @GetMapping("/user/{userId}")
   @ResponseStatus(HttpStatus.OK)
   public final User getUser(@Valid @PathVariable final Long userId) {
     return getUserByIdService.getUserById(userId);
@@ -50,12 +49,11 @@ public class UserController implements UserControllerInterface {
   @GetMapping("/auth")
   @ResponseStatus(HttpStatus.OK)
   @Override
-  public boolean getCurrentUser() {
+  public User getCurrentUser() {
     var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    if (authentication != null && authentication.isAuthenticated()) {
-      System.out.println("Authenticated user: " + authentication.getPrincipal());
-      return true;
+    if (!Objects.isNull(authentication) && authentication.isAuthenticated()) {
+      return (User) authentication.getPrincipal();
     } else {
       throw new RuntimeException("User is not authenticated");
     }

@@ -24,5 +24,5 @@ public interface UserControllerInterface {
 
   @GetMapping("/auth")
   @ResponseStatus(HttpStatus.OK)
-  boolean getCurrentUser();
+  User getCurrentUser();
 }

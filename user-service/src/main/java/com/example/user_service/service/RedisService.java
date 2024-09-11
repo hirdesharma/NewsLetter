@@ -18,6 +18,7 @@ public class RedisService implements RedisServiceInterface {
   private final RedisTemplate<String, String> redisTemplate;
   private final ObjectMapper objectMapper;
 
+  @Override
   public final <T> Optional<T> get(final String key, final Class<T> entityClass) {
     try {
       final String json = redisTemplate.opsForValue().get(key);
@@ -30,6 +31,7 @@ public class RedisService implements RedisServiceInterface {
     }
   }
 
+  @Override
   public final void set(final String key, final Object obj, final Long ttl) {
     try {
       final String jsonValue = objectMapper.writeValueAsString(obj);

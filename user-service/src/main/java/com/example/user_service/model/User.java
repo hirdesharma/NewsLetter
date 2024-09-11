@@ -40,6 +40,6 @@ public class User {
 
   @Column(name = "role")
   private String role = "ROLE_USER";
-  @Column(name = "token")
+  @Column(name = "jwt_token")
   private String jwtToken;
 }
