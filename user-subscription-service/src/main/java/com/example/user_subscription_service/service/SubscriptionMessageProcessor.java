@@ -2,6 +2,7 @@ package com.example.user_subscription_service.service;
 
 import com.example.user_subscription_service.dto.Subscription;
 import com.example.user_subscription_service.dto.SubscriptionMessage;
+import com.example.user_subscription_service.exception.UserSubscriptionException;
 import com.example.user_subscription_service.model.UserSubscription;
 import com.example.user_subscription_service.repository.UserSubscriptionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,6 +22,7 @@ public class SubscriptionMessageProcessor implements SubscriptionMessageProcesso
   private final KafkaTemplate<String, String> kafkaTemplate;
   private final ExternalService externalService;
 
+  @Override
   public final UserSubscription publishKafkaMessage(final Subscription subscription,
                                                     final UserSubscription userSubscription) {
     final long duration = subscription.getDuration();
@@ -36,16 +38,16 @@ public class SubscriptionMessageProcessor implements SubscriptionMessageProcesso
         externalService.fetchSubscriptionMessage(userSubscription.getUserId());
 
     try {
-      ObjectMapper objectMapper = new ObjectMapper();
+      final ObjectMapper objectMapper = new ObjectMapper();
       objectMapper.registerModule(new JavaTimeModule());
       objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-      String messageJson = objectMapper.writeValueAsString(subscriptionMessage);
+      final String messageJson = objectMapper.writeValueAsString(subscriptionMessage);
       System.out.println("Successfully serialized: " + messageJson);
       kafkaTemplate.send("subscription_events", messageJson);
     } catch (JsonProcessingException e) {
-      e.printStackTrace();
       System.out.println("Error serializing SubscriptionMessage: " + e.getMessage());
+      throw new UserSubscriptionException("Error serializing SubscriptionMessage: ", e);
     }
 
     return userSubscriptionRepository.save(userSubscription);

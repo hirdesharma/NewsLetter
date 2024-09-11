@@ -34,7 +34,7 @@ class SaveUserServiceTest {
   }
 
   @Test
-  void testSaveUserSubscriptionToDB_Successful() {
+  void testSaveUserSubscriptionToDBSuccessful() {
     UserSubscription userSubscription = new UserSubscription();
     userSubscription.setSubscriptionId(1L);
 
@@ -59,7 +59,7 @@ class SaveUserServiceTest {
   }
 
   @Test
-  void testSaveUserSubscriptionToDB_NullSubscription() {
+  void testSaveUserSubscriptionToDBNullSubscription() {
 
     UserSubscription userSubscription = new UserSubscription();
     userSubscription.setSubscriptionId(1L);
@@ -79,7 +79,7 @@ class SaveUserServiceTest {
   }
 
   @Test
-  void testSaveUserSubscriptionToDB_ExternalServiceThrowsException() {
+  void testSaveUserSubscriptionToDBExternalServiceThrowsException() {
 
     UserSubscription userSubscription = new UserSubscription();
     userSubscription.setSubscriptionId(1L);

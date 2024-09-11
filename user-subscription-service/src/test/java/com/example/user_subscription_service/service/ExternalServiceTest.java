@@ -1,21 +1,28 @@
 package com.example.user_subscription_service.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
 
 import com.example.user_subscription_service.dto.Subscription;
 import com.example.user_subscription_service.dto.SubscriptionMessage;
+import com.example.user_subscription_service.dto.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-class ExternalServiceTest {
+public class ExternalServiceTest {
 
   @Mock
   private RestTemplate restTemplate;
@@ -29,64 +36,74 @@ class ExternalServiceTest {
   }
 
   @Test
-  void testFetchSubscription_Success() {
+  void testFetchSubscriptionSuccess() {
+    Long subscriptionId = 1L;
     Subscription expectedSubscription = new Subscription();
-    expectedSubscription.setId(1L);
-    expectedSubscription.setName("Basic Plan");
-
-    when(restTemplate.getForObject(
-        "http://localhost:8081/api/subscriptions/1",
-        Subscription.class))
+    when(restTemplate.getForObject(anyString(), eq(Subscription.class)))
         .thenReturn(expectedSubscription);
 
-    Subscription actualSubscription = externalService.fetchSubscription(1L);
-
-    assertNotNull(actualSubscription);
-    assertEquals(expectedSubscription.getId(), actualSubscription.getId());
-    assertEquals(expectedSubscription.getName(), actualSubscription.getName());
+    Subscription actualSubscription = externalService.fetchSubscription(subscriptionId);
+    assertEquals(expectedSubscription, actualSubscription);
   }
 
   @Test
-  void testFetchSubscription_Failure() {
-    when(restTemplate.getForObject(
-        "http://localhost:8081/api/subscriptions/1",
-        Subscription.class))
-        .thenThrow(new RestClientException("Failed to fetch subscription"));
+  void testFetchSubscriptionException() {
+    Long subscriptionId = 1L;
+    when(restTemplate.getForObject(anyString(), eq(Subscription.class)))
+        .thenThrow(new RestClientException("Error"));
 
-    RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
-      externalService.fetchSubscription(1L);
-    });
-
+    RuntimeException thrown = assertThrows(RuntimeException.class, () ->
+        externalService.fetchSubscription(subscriptionId));
     assertEquals("Failed to fetch subscription details", thrown.getMessage());
   }
 
   @Test
-  void testFetchSubscriptionMessage_Success() {
+  void testFetchSubscriptionMessageSuccess() {
+    Long userId = 1L;
     SubscriptionMessage expectedMessage = new SubscriptionMessage();
-    expectedMessage.setId(1L);
-
-    when(restTemplate.getForObject(
-        "http://localhost:8080/api/users/1",
-        SubscriptionMessage.class))
+    when(restTemplate.getForObject(anyString(), eq(SubscriptionMessage.class)))
         .thenReturn(expectedMessage);
 
-    SubscriptionMessage actualMessage = externalService.fetchSubscriptionMessage(1L);
-
-    assertNotNull(actualMessage);
-    assertEquals(expectedMessage.getId(), actualMessage.getId());
+    SubscriptionMessage actualMessage = externalService.fetchSubscriptionMessage(userId);
+    assertEquals(expectedMessage, actualMessage);
   }
 
   @Test
-  void testFetchSubscriptionMessage_Failure() {
-    when(restTemplate.getForObject(
-        "http://localhost:8080/api/users/1",
-        SubscriptionMessage.class))
-        .thenThrow(new RestClientException("Failed to fetch user details"));
+  void testFetchSubscriptionMessageException() {
+    Long userId = 1L;
+    when(restTemplate.getForObject(anyString(), eq(SubscriptionMessage.class)))
+        .thenThrow(new RuntimeException("Error"));
 
-    RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
-      externalService.fetchSubscriptionMessage(1L);
-    });
-
+    RuntimeException thrown = assertThrows(RuntimeException.class, () ->
+        externalService.fetchSubscriptionMessage(userId));
     assertEquals("Failed to fetch user details", thrown.getMessage());
+  }
+
+  @Test
+  void testFetchAuthenticationUnauthorized() {
+    String jwtToken = "invalidToken";
+    when(restTemplate.exchange(
+        anyString(),
+        any(HttpMethod.class),
+        any(HttpEntity.class),
+        eq(User.class))
+    ).thenThrow(new HttpClientErrorException(HttpStatus.UNAUTHORIZED));
+
+    assertThrows(RuntimeException.class, () ->
+        externalService.fetchAuthentication(jwtToken));
+  }
+
+  @Test
+  void testFetchAuthenticationException() {
+    String jwtToken = "anyToken";
+    when(restTemplate.exchange(
+        anyString(),
+        any(HttpMethod.class),
+        any(HttpEntity.class),
+        eq(User.class))
+    ).thenThrow(new RestClientException("Error"));
+
+    assertThrows(RuntimeException.class, () ->
+        externalService.fetchAuthentication(jwtToken));
   }
 }

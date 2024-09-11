@@ -50,7 +50,7 @@ class SubscriptionMessageProcessorTest {
   }
 
   @Test
-  void testPublishKafkaMessage_Success() throws JsonProcessingException {
+  void testPublishKafkaMessageSuccess() throws JsonProcessingException {
     Subscription subscription = new Subscription();
     subscription.setDuration(10L);
 
@@ -81,7 +81,7 @@ class SubscriptionMessageProcessorTest {
   }
 
   @Test
-  void testPublishKafkaMessage_SerializationError() throws JsonProcessingException {
+  void testPublishKafkaMessageSerializationError() throws JsonProcessingException {
     // Arrange
     Subscription subscription = new Subscription();
     subscription.setDuration(10L);
@@ -114,7 +114,7 @@ class SubscriptionMessageProcessorTest {
   }
 
   @Test
-  void testPublishKafkaMessage_NullSubscriptionMessage() {
+  void testPublishKafkaMessageNullSubscriptionMessage() {
     Subscription subscription = new Subscription();
     subscription.setDuration(10L);
 

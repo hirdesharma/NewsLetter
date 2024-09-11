@@ -13,8 +13,9 @@ public class SaveUserService implements SaveUserServiceInterface {
   private final ExternalService externalService;
   private final SubscriptionMessageProcessorInterface subscriptionMessageProcessor;
 
+  @Override
   public final UserSubscription saveUserSubscriptionToDB(final UserSubscription userSubscription) {
-    Subscription subscription = externalService.fetchSubscription(
+    final Subscription subscription = externalService.fetchSubscription(
         userSubscription.getSubscriptionId());
     checkNull(subscription, userSubscription);
     return subscriptionMessageProcessor.publishKafkaMessage(subscription, userSubscription);

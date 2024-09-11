@@ -24,6 +24,7 @@ public class RedisService implements RedisServiceInterface {
     this.objectMapper = objectMapper;
   }
 
+  @Override
   public final <T> Optional<T> get(final String key, final Class<T> entityClass) {
     try {
       final String json = redisTemplate.opsForValue().get(key);
@@ -32,11 +33,12 @@ public class RedisService implements RedisServiceInterface {
       }
       return Optional.empty();
     } catch (Exception e) {
-      System.out.println(e);
+      System.out.println(e.getMessage());
       throw new RedisOperationException("Failed to get data from Redis", e);
     }
   }
 
+  @Override
   public final void set(final String key, final Object obj, final Long ttl) {
     try {
       final String jsonValue = objectMapper.writeValueAsString(obj);
