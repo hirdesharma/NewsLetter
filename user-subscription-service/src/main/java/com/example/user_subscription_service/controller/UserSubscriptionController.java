@@ -1,6 +1,5 @@
 package com.example.user_subscription_service.controller;
 
-import com.example.user_subscription_service.configure.KafkaProducerConfig;
 import com.example.user_subscription_service.exception.UserSubscriptionException;
 import com.example.user_subscription_service.model.UserSubscription;
 import com.example.user_subscription_service.service.UserSubscriptionServiceInterface;
@@ -46,7 +45,9 @@ public class UserSubscriptionController implements UserSubscriptionControllerInt
   @Override
   @GetMapping("/{userId}")
   @ResponseStatus(HttpStatus.OK)
-  public final List<UserSubscription> getUserSubscriptions(@Valid @PathVariable final Long userId) {
-    return userSubscriptionService.getUserSubscriptions(userId);
+  public final List<UserSubscription> getUserSubscriptions(@Valid @PathVariable final Long userId, @RequestHeader(
+      "Authorization") final String authorizationHeader) {
+    String jwtToken = authorizationHeader.substring(7);
+    return userSubscriptionService.getUserSubscriptions(userId,jwtToken);
   }
 }

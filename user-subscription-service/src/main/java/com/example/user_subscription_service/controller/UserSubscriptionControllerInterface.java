@@ -10,5 +10,6 @@ public interface UserSubscriptionControllerInterface {
   UserSubscription subscribe(@RequestBody UserSubscription userSubscription, @RequestHeader(
       "Authorization") final String authorizationHeader);
 
-  List<UserSubscription> getUserSubscriptions(@PathVariable Long userId);
+  List<UserSubscription> getUserSubscriptions(@PathVariable Long userId, @RequestHeader(
+      "Authorization") final String authorizationHeader);
 }

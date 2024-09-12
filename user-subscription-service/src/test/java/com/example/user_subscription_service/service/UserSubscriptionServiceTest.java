@@ -60,13 +60,15 @@ class UserSubscriptionServiceTest {
     List<UserSubscription> expectedSubscriptions = new ArrayList<>();
     expectedSubscriptions.add(userSubscription);
 
+    when(externalService.fetchAuthentication(anyString())).thenReturn(user);
     when(userSubscriptionRepository.findByUserId(userSubscription.getUserId()))
         .thenReturn(expectedSubscriptions);
 
     List<UserSubscription> result = userSubscriptionService.getUserSubscriptions(
-        userSubscription.getUserId());
+        userSubscription.getUserId(),"validToken");
 
     assertNotNull(result);
+    assertEquals(user.getId(),userSubscription.getUserId());
     assertEquals(1, result.size());
     assertEquals(expectedSubscriptions, result);
 

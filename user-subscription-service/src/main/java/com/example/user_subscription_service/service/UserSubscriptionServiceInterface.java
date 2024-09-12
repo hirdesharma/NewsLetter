@@ -6,5 +6,5 @@ import java.util.List;
 public interface UserSubscriptionServiceInterface {
   UserSubscription subscribe(final UserSubscription userSubscription,String jwtToken);
 
-  List<UserSubscription> getUserSubscriptions(Long userId);
+  List<UserSubscription> getUserSubscriptions(Long userId,String jwtToken);
 }

@@ -17,7 +17,14 @@ public class UserSubscriptionService implements UserSubscriptionServiceInterface
   private final ExternalService externalService;
 
   @Override
-  public final List<UserSubscription> getUserSubscriptions(final Long userId) {
+  public final List<UserSubscription> getUserSubscriptions(final Long userId,
+                                                           final String jwtToken) {
+    final User user = externalService.fetchAuthentication(jwtToken);
+    if (!user.getId().equals(userId)) {
+      System.out.println("you are not allowed to add subscription to any other user");
+      throw new IllegalArgumentException(
+          "you are not allowed to add subscription to any other user");
+    }
     return userSubscriptionRepository.findByUserId(userId);
   }
 
@@ -37,7 +44,8 @@ public class UserSubscriptionService implements UserSubscriptionServiceInterface
         saveUserService.saveUserSubscriptionToDB(userSubscription);
 
     final String cacheKey = "userSubscriptions:" + userSubscription.getUserId();
-    final List<UserSubscription> subscriptions = getUserSubscriptions(userSubscription.getUserId());
+    final List<UserSubscription> subscriptions =
+        getUserSubscriptions(userSubscription.getUserId(),jwtToken);
 
     redisService.set(cacheKey, subscriptions, 3600L);
 

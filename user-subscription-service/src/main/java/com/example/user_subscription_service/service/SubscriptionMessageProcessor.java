@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ public class SubscriptionMessageProcessor implements SubscriptionMessageProcesso
   private final UserSubscriptionRepository userSubscriptionRepository;
   private final KafkaTemplate<String, String> kafkaTemplate;
   private final ExternalService externalService;
+  @Value("${spring.kafka.topic}")
+  private String kafkaTopic;
 
   @Override
   public final UserSubscription publishKafkaMessage(final Subscription subscription,
@@ -44,7 +47,7 @@ public class SubscriptionMessageProcessor implements SubscriptionMessageProcesso
 
       final String messageJson = objectMapper.writeValueAsString(subscriptionMessage);
       System.out.println("Successfully serialized: " + messageJson);
-      kafkaTemplate.send("subscription_events", messageJson);
+      kafkaTemplate.send(kafkaTopic, messageJson);
     } catch (JsonProcessingException e) {
       System.out.println("Error serializing SubscriptionMessage: " + e.getMessage());
       throw new UserSubscriptionException("Error serializing SubscriptionMessage: ", e);
