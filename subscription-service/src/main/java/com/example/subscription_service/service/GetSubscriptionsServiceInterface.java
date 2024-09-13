@@ -9,4 +9,6 @@ public interface GetSubscriptionsServiceInterface {
   List<Subscription> getAllSubscriptions(Sort sort);
 
   Subscription getSubscriptionById(Long subscriptionId);
+
+  List<Subscription> searchSubscriptions(String name, Long id);
 }

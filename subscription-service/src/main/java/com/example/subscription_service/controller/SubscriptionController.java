@@ -5,6 +5,7 @@ import com.example.subscription_service.service.AddSubscriptionServiceInterface;
 import com.example.subscription_service.service.GetSubscriptionsServiceInterface;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
@@ -58,5 +59,18 @@ public class SubscriptionController implements SubscriptionControllerInterface {
   @ResponseStatus(HttpStatus.OK)
   public final Subscription getSubscriptionById(@Valid @PathVariable final Long subscriptionId) {
     return getSubscriptionsService.getSubscriptionById(subscriptionId);
+  }
+
+  @GetMapping("/search")
+  @ResponseStatus(HttpStatus.OK)
+  public final List<Subscription> searchSubscriptions(
+      @RequestParam(required = false) final String name,
+      @RequestParam(required = false) final Long id) {
+
+    if (Objects.isNull(name) && Objects.isNull(id)) {
+      throw new IllegalArgumentException("At least one of 'name' or 'id' must be provided.");
+    }
+
+    return getSubscriptionsService.searchSubscriptions(name, id);
   }
 }
