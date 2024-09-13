@@ -1,11 +1,10 @@
 package com.example.notification.listener;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.ExpectedCount.never;
 
+import com.example.notification.exception.NotificationServiceException;
 import com.example.notification.service.EmailSenderService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,20 +31,37 @@ class KafkaSubscriptionListenersTest {
   }
 
   @Test
-  void testListener_Success() throws Exception {
+  void testListenerSuccess() throws Exception {
     String data = "{\"id\":\"12345\",\"email\":\"test@example.com\"}";
-    JsonNode jsonNode = mock(JsonNode.class);
+    JsonNode jsonNode = new ObjectMapper().readTree(data);
     when(objectMapper.readTree(data)).thenReturn(jsonNode);
-    when(jsonNode.get("id")).thenReturn(mock(JsonNode.class));
-    when(jsonNode.get("id").asText()).thenReturn("12345");
-    when(jsonNode.get("email")).thenReturn(mock(JsonNode.class));
-    when(jsonNode.get("email").asText()).thenReturn("test@example.com");
-
     kafkaSubscriptionListeners.listener(data);
 
-    String expectedBody
-        = "Congratulations you { userId : 12345} have been subscribed to our subscription service";
-    verify(emailSenderService).sendEmail("test@example.com", expectedBody);
+    verify(emailSenderService).sendEmailSubscription("test@example.com", "12345");
   }
-  // TestEdge cases and failing cases
+
+  @Test
+  void testListenerNullData() {
+    assertThrows(NotificationServiceException.class,
+        () -> kafkaSubscriptionListeners.listener(null));
+  }
+
+  @Test
+  void testListenerEmptyData() {
+    assertThrows(NotificationServiceException.class, () -> kafkaSubscriptionListeners.listener(""));
+  }
+
+  @Test
+  void testListenerInvalidJson() {
+    String data = "Invalid JSON";
+    assertThrows(NotificationServiceException.class,
+        () -> kafkaSubscriptionListeners.listener(data));
+  }
+
+  @Test
+  void testListenerMissingIdField() {
+    String data = "{\"email\":\"test@example.com\"}";
+    assertThrows(NotificationServiceException.class,
+        () -> kafkaSubscriptionListeners.listener(data));
+  }
 }

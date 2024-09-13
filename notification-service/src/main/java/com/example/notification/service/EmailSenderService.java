@@ -31,7 +31,19 @@ public class EmailSenderService {
       System.out.println("chala gaya mail 🫡🫡");
     } catch (Exception e) {
       throw new NotificationServiceException("Error sending email to: " + toEmail, e);
-
     }
+  }
+
+  public final void sendEmailSubscription(final String toEmail, final String userId) {
+    final String body = "Congratulations you { userId : " + userId + "} have been subscribed to "
+        + "our "
+        + "subscription service";
+    sendEmail(toEmail, body);
+  }
+
+  public void sendEmailRegistration(final String toEmail) {
+    final String body = "Congratulations you have successfully registered on out newsletter with "
+        + "email : " + toEmail;
+    sendEmail(toEmail, body);
   }
 }

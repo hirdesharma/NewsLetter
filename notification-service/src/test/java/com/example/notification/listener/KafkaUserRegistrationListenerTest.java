@@ -36,40 +36,33 @@ class KafkaUserRegistrationListenerTest {
   @Test
   void testListenerSuccess() throws Exception {
     String data = "{\"id\":\"12345\",\"email\":\"test@example.com\"}";
-
-    JsonNode jsonNode = mock(JsonNode.class);
+    JsonNode jsonNode = new ObjectMapper().readTree(data);
     when(objectMapper.readTree(data)).thenReturn(jsonNode);
-    when(jsonNode.get("id")).thenReturn(mock(JsonNode.class));
-    when(jsonNode.get("id").asText()).thenReturn("12345");
-    when(jsonNode.get("email")).thenReturn(mock(JsonNode.class));
-    when(jsonNode.get("email").asText()).thenReturn("test@example.com");
-
     kafkaUserRegistrationListener.listener(data);
-
-    verify(emailSenderService).sendEmail("test@example.com",
-        "Congratulations you have successfully registered on out newsletter with email : "
-            + "test@example.com");
+    verify(emailSenderService).sendEmailRegistration("test@example.com");
   }
 
   @Test
-  public void testNullOrEmptyMessageHandling() {
-    EmailSenderService emailSenderService = mock(EmailSenderService.class);
-    KafkaUserRegistrationListener listener = new KafkaUserRegistrationListener(emailSenderService);
+  void testListenerHandlesNullOrEmptyMessage() {
+    EmailSenderService emailSenderServiceMock = mock(EmailSenderService.class);
+    KafkaUserRegistrationListener listener = new KafkaUserRegistrationListener(
+        emailSenderServiceMock);
 
     assertThrows(NotificationServiceException.class, () -> listener.listener(null));
     assertThrows(NotificationServiceException.class, () -> listener.listener(""));
+    verify(emailSenderServiceMock, never()).sendEmailRegistration(anyString());
   }
 
   @Test
-  public void testMessageWithMissingFields() {
-    EmailSenderService emailSenderService = mock(EmailSenderService.class);
-    KafkaUserRegistrationListener listener = new KafkaUserRegistrationListener(emailSenderService);
-    String invalidMessage = "{\"userId\":\"12345\"}";
+  void testListenerHandlesMissingFields() {
+    String messageWithoutEmail = "{\"id\":\"12345\"}";
+    String messageWithoutId = "{\"email\":\"test@example.com\"}";
 
-    assertThrows(NotificationServiceException.class, () -> {
-      listener.listener(invalidMessage);
-    });
+    assertThrows(NotificationServiceException.class,
+        () -> kafkaUserRegistrationListener.listener(messageWithoutEmail));
+    assertThrows(NotificationServiceException.class,
+        () -> kafkaUserRegistrationListener.listener(messageWithoutId));
 
-    verify(emailSenderService, never()).sendEmail(anyString(), anyString());
+    verify(emailSenderService, never()).sendEmailRegistration(anyString());
   }
 }

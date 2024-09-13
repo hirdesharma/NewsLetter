@@ -1,5 +1,13 @@
 package com.example.notification.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+
 import com.example.notification.exception.NotificationServiceException;
 import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,9 +18,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class EmailSenderServiceTest {
 
@@ -28,13 +33,14 @@ class EmailSenderServiceTest {
   }
 
   @Test
-  void testSendEmail_Success() {
+  void testSendEmailSuccess() {
     String toEmail = "test@example.com";
     String body = "Test email body";
 
     emailSenderService.sendEmail(toEmail, body);
 
-    ArgumentCaptor<SimpleMailMessage> messageCaptor = ArgumentCaptor.forClass(SimpleMailMessage.class);
+    ArgumentCaptor<SimpleMailMessage> messageCaptor = ArgumentCaptor.forClass(
+        SimpleMailMessage.class);
     verify(javaMailSender).send(messageCaptor.capture());
 
     SimpleMailMessage sentMessage = messageCaptor.getValue();
@@ -44,7 +50,7 @@ class EmailSenderServiceTest {
   }
 
   @Test
-  void testSendEmail_InvalidEmail() {
+  void testSendEmailInvalidEmail() {
     String invalidEmail = "   ";
 
     emailSenderService.sendEmail(invalidEmail, "Some body");
@@ -53,10 +59,11 @@ class EmailSenderServiceTest {
   }
 
   @Test
-  void testSendEmail_ExceptionHandling() {
+  void testSendEmailExceptionHandling() {
     String toEmail = "test@example.com";
     String body = "Test email body";
-    doThrow(new RuntimeException("Mail sending failed")).when(javaMailSender).send(any(SimpleMailMessage.class));
+    doThrow(new RuntimeException("Mail sending failed")).when(javaMailSender).send(
+        any(SimpleMailMessage.class));
 
     NotificationServiceException thrown = assertThrows(NotificationServiceException.class, () -> {
       emailSenderService.sendEmail(toEmail, body);
