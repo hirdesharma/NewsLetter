@@ -25,4 +25,11 @@ public interface SubscriptionControllerInterface {
   @GetMapping("/{subscriptionId}")
   @ResponseStatus(HttpStatus.OK)
   Subscription getSubscriptionById(@Valid @PathVariable Long subscriptionId);
+
+  @GetMapping("/search")
+  @ResponseStatus(HttpStatus.OK)
+  List<Subscription> searchSubscriptions(
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) Double minPrice,
+      @RequestParam(required = false) Double maxPrice);
 }

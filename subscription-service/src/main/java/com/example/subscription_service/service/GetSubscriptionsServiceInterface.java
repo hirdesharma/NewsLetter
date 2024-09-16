@@ -10,5 +10,7 @@ public interface GetSubscriptionsServiceInterface {
 
   Subscription getSubscriptionById(Long subscriptionId);
 
-  List<Subscription> searchSubscriptions(String name, Long id);
+  List<Subscription> searchByName(String name);
+
+  List<Subscription> filterByPriceRange(Double minPrice, Double maxPrice);
 }

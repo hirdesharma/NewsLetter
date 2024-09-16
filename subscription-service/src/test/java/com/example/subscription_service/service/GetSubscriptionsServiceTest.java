@@ -1,4 +1,4 @@
-package com.example.user_subscription_service.service;
+package com.example.subscription_service.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 
 import com.example.subscription_service.model.Subscription;
 import com.example.subscription_service.repository.SubscriptionRepository;
-import com.example.subscription_service.service.GetSubscriptionsService;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
