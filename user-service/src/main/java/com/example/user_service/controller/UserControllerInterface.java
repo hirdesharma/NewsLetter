@@ -1,8 +1,10 @@
 package com.example.user_service.controller;
 
+import com.example.user_service.dto.UserDto;
 import com.example.user_service.model.User;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +18,7 @@ public interface UserControllerInterface {
 
   @PostMapping("/login")
   @ResponseStatus(HttpStatus.OK)
-  User login(@RequestBody User user);
+  ResponseEntity<UserDto> login(@RequestBody User user);
 
   @GetMapping("/{userId}")
   @ResponseStatus(HttpStatus.OK)

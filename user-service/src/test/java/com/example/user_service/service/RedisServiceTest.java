@@ -1,4 +1,4 @@
-package com.example.testing.service;
+package com.example.user_service.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -53,7 +53,7 @@ class RedisServiceTest {
   }
 
   @Test
-  void testGet_Success() throws Exception {
+  void testGetSuccess() throws Exception {
     String key = "user:1";
     String jsonValue = "{\"id\":1,\"email\":\"hirdesh.sharma@example.com\",\"password\":\"password123\"}";
 
@@ -70,7 +70,7 @@ class RedisServiceTest {
   }
 
   @Test
-  void testGet_NotFound() {
+  void testGetNotFound() {
     String key = "user:2";
     when(valueOperations.get(eq(key))).thenReturn(null);
 
@@ -83,7 +83,7 @@ class RedisServiceTest {
   }
 
   @Test
-  void testGet_Exception() {
+  void testGetException() {
     String key = "user:3";
     when(valueOperations.get(eq(key))).thenThrow(new RuntimeException("Redis error"));
 
@@ -94,7 +94,7 @@ class RedisServiceTest {
   }
 
   @Test
-  void testSet_Success() throws Exception {
+  void testSetSuccess() throws Exception {
     String key = "user:1";
     Long ttl = 6000L;
     String jsonValue = "{\"id\":1,\"email\":\"hirdesh.sharma@example.com\",\"password\":\"password123\"}";
@@ -109,7 +109,7 @@ class RedisServiceTest {
   }
 
   @Test
-  void testSet_Exception() throws Exception {
+  void testSetException() throws Exception {
     String key = "user:1";
     Long ttl = 6000L;
     when(objectMapper.writeValueAsString(eq(user))).thenThrow(new RuntimeException("Serialization error"));

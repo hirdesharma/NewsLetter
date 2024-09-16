@@ -1,4 +1,4 @@
-package com.example.testing.service;
+package com.example.user_service.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import com.example.user_service.dto.UserDto;
 import com.example.user_service.jwtconfig.JwtUtil;
 import com.example.user_service.model.User;
 import com.example.user_service.repository.UserRepository;
@@ -49,7 +50,7 @@ class UserAuthenticationServiceTest {
   }
 
   @Test
-  void testAuthenticate_Success() {
+  void testAuthenticateSuccess() {
     String email = "hirdesh.sharma@example.com";
     String password = "password123";
     String token = "jwtToken";
@@ -58,18 +59,17 @@ class UserAuthenticationServiceTest {
     when(passwordEncoder.matches(eq(password), eq(user.getPassword()))).thenReturn(true);
     when(jwtUtil.generateToken(eq(user.getId()), eq(user.getRole()))).thenReturn(token);
 
-    User result = userAuthenticationService.authenticate(email, password);
+    UserDto result = userAuthenticationService.authenticate(email, password);
 
     assertNotNull(result);
-    assertEquals(token, result.getJwtToken());
-    assertEquals(user, result);
+    assertEquals(user.getEmail(), result.getEmail());
     verify(userRepository, times(1)).findByEmail(eq(email));
     verify(passwordEncoder, times(1)).matches(eq(password), eq(user.getPassword()));
     verify(jwtUtil, times(1)).generateToken(eq(user.getId()), eq(user.getRole()));
   }
 
   @Test
-  void testAuthenticate_InvalidCredentials() {
+  void testAuthenticateInvalidCredentials() {
     String email = "hirdesh.sharma@example.com";
     String password = "wrongPassword";
 
@@ -86,7 +86,7 @@ class UserAuthenticationServiceTest {
   }
 
   @Test
-  void testAuthenticate_UserNotFound() {
+  void testAuthenticateUserNotFound() {
     String email = "hirdesh.sharma@example.com";
     String password = "password123";
 

@@ -1,7 +1,7 @@
 package com.example.user_service.service;
 
-import com.example.user_service.model.User;
+import com.example.user_service.dto.UserDto;
 
 public interface UserAuthenticationServiceInterface {
-  User authenticate(String email, String password);
+  UserDto authenticate(String email, String password);
 }

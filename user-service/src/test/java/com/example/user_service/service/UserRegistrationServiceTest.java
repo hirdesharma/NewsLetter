@@ -1,4 +1,4 @@
-package com.example.testing.service;
+package com.example.user_service.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -66,7 +66,7 @@ class UserRegistrationServiceTest {
   }
 
   @Test
-  void testRegisterUser_Success() {
+  void testRegisterUserSuccess() {
     String adminEmail = "sharmahirdesh001@gmail.com";
     user.setEmail(adminEmail);
 
@@ -92,7 +92,7 @@ class UserRegistrationServiceTest {
   }
 
   @Test
-  void testRegisterUser_UserAlreadyRegistered() {
+  void testRegisterUserUserAlreadyRegistered() {
     when(userRepository.findByEmail(eq(user.getEmail()))).thenReturn(Optional.of(user));
 
     RuntimeException thrownException = assertThrows(RuntimeException.class,
