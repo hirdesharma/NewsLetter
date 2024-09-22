@@ -4,7 +4,7 @@ import com.example.user_subscription_service.model.UserSubscription;
 import java.util.List;
 
 public interface UserSubscriptionServiceInterface {
-  UserSubscription subscribe(final UserSubscription userSubscription,String jwtToken);
+  UserSubscription subscribe(final UserSubscription userSubscription);
 
-  List<UserSubscription> getUserSubscriptions(Long userId,String jwtToken);
+  List<UserSubscription> getUserSubscriptions(Long userId);
 }

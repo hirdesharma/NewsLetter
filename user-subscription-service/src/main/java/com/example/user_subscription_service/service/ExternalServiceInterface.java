@@ -1,14 +1,14 @@
 package com.example.user_subscription_service.service;
 
-import com.example.user_subscription_service.dto.Subscription;
-import com.example.user_subscription_service.dto.SubscriptionMessage;
-import com.example.user_subscription_service.dto.User;
+import com.example.user_subscription_service.dto.SubscriptionDto;
+import com.example.user_subscription_service.dto.SubscriptionMessageDto;
+import com.example.user_subscription_service.dto.UserDto;
 
 public interface ExternalServiceInterface {
 
-  Subscription fetchSubscription(Long subscriptionId);
+  SubscriptionDto fetchSubscription(Long subscriptionId);
 
-  SubscriptionMessage fetchSubscriptionMessage(Long userId);
+  SubscriptionMessageDto fetchSubscriptionMessage(Long userId);
 
-  User fetchAuthentication(String jwtToken);
+  UserDto fetchAuthentication();
 }

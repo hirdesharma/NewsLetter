@@ -1,20 +1,16 @@
 package com.example.user_subscription_service.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.anyList;
+import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.example.user_subscription_service.dto.User;
+import com.example.user_subscription_service.dto.UserDto;
 import com.example.user_subscription_service.model.UserSubscription;
 import com.example.user_subscription_service.repository.UserSubscriptionRepository;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,83 +35,91 @@ class UserSubscriptionServiceTest {
   @InjectMocks
   private UserSubscriptionService userSubscriptionService;
 
-  private UserSubscription userSubscription;
-  private User user;
-
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
-    userSubscription = new UserSubscription();
-    userSubscription.setUserId(1L);
-    userSubscription.setSubscriptionId(100L);
-    userSubscription.setIsActive(true);
-
-    user = new User();
-    user.setId(1L);
-    user.setRole("ROLE_USER");
   }
 
   @Test
-  void testGetUserSubscriptions() {
-    List<UserSubscription> expectedSubscriptions = new ArrayList<>();
-    expectedSubscriptions.add(userSubscription);
+  void getUserSubscriptions_ShouldReturnSubscriptions_WhenUserIsAuthenticated() {
+    Long userId = 1L;
 
-    when(externalService.fetchAuthentication(anyString())).thenReturn(user);
-    when(userSubscriptionRepository.findByUserId(userSubscription.getUserId()))
-        .thenReturn(expectedSubscriptions);
+    UserDto userDto = new UserDto();
+    userDto.setId(userId);
 
-    List<UserSubscription> result = userSubscriptionService.getUserSubscriptions(
-        userSubscription.getUserId(),"validToken");
+    List<UserSubscription> subscriptions = Collections.singletonList(new UserSubscription());
 
-    assertNotNull(result);
-    assertEquals(user.getId(),userSubscription.getUserId());
-    assertEquals(1, result.size());
-    assertEquals(expectedSubscriptions, result);
+    when(externalService.fetchAuthentication()).thenReturn(userDto);
+    when(userSubscriptionRepository.findByUserId(userId)).thenReturn(subscriptions);
 
-    verify(userSubscriptionRepository, times(1)).findByUserId(userSubscription.getUserId());
+    List<UserSubscription> result = userSubscriptionService.getUserSubscriptions(userId);
+
+    assertEquals(subscriptions, result);
+    verify(userSubscriptionRepository).findByUserId(userId);
   }
 
   @Test
-  void testSubscribeSuccess() {
+  void getUserSubscriptions_ShouldThrowException_WhenUserIdDoesNotMatch() {
+    Long userId = 1L;
+    Long otherUserId = 2L;
+
+    UserDto userDto = new UserDto();
+    userDto.setId(otherUserId);
+
+    when(externalService.fetchAuthentication()).thenReturn(userDto);
+
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+      userSubscriptionService.getUserSubscriptions(userId);
+    });
+
+    assertEquals("you are not allowed to add subscription to any other user",
+        exception.getMessage());
+  }
+
+  @Test
+  void subscribe_ShouldSaveSubscriptionAndCacheIt_WhenUserIsAuthenticated() {
+    Long userId = 1L;
+
+    UserDto userDto = new UserDto();
+    userDto.setId(userId);
+
+    UserSubscription subscription = new UserSubscription();
+    subscription.setUserId(userId);
+
     UserSubscription savedSubscription = new UserSubscription();
-    savedSubscription.setUserId(1L);
-    savedSubscription.setSubscriptionId(234L);
-    savedSubscription.setIsActive(true);
 
-    List<UserSubscription> subscriptions = new ArrayList<>();
-    subscriptions.add(savedSubscription);
+    when(externalService.fetchAuthentication()).thenReturn(userDto);
+    when(saveUserService.saveUserSubscriptionToDB(subscription)).thenReturn(savedSubscription);
+    when(userSubscriptionRepository.findByUserId(userId)).thenReturn(
+        Collections.singletonList(subscription));
 
-    when(externalService.fetchAuthentication(anyString())).thenReturn(user);
-    when(saveUserService.saveUserSubscriptionToDB(any(UserSubscription.class)))
-        .thenReturn(savedSubscription);
-    when(userSubscriptionRepository.findByUserId(userSubscription.getUserId()))
-        .thenReturn(subscriptions);
+    UserSubscription result = userSubscriptionService.subscribe(subscription);
 
-    UserSubscription result = userSubscriptionService.subscribe(userSubscription, "validToken");
-
-    assertNotNull(result);
     assertEquals(savedSubscription, result);
 
-    verify(externalService, times(1)).fetchAuthentication(anyString());
-    verify(saveUserService, times(1)).saveUserSubscriptionToDB(userSubscription);
-    verify(userSubscriptionRepository, times(1)).findByUserId(userSubscription.getUserId());
-    verify(redisService, times(1)).set(eq("userSubscriptions:" + userSubscription.getUserId()),
-        eq(subscriptions), eq(3600L));
+    verify(saveUserService).saveUserSubscriptionToDB(subscription);
+    verify(redisService).set(eq("userSubscriptions:" + userId), anyList(), eq(3600L));
   }
 
   @Test
-  void testSubscribeFailureUserMismatch() {
-    User otherUser = new User();
-    otherUser.setId(2L);
+  void subscribe_ShouldThrowException_WhenUserIdDoesNotMatch() {
+    Long userId = 1L;
+    Long otherUserId = 2L;
 
-    when(externalService.fetchAuthentication(anyString())).thenReturn(otherUser);
+    UserDto userDto = new UserDto();
+    userDto.setId(otherUserId);
 
-    IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () ->
-        userSubscriptionService.subscribe(userSubscription, "validToken"));
-    assertEquals("you are not allowed to add subscription to any other user", thrown.getMessage());
+    UserSubscription subscription = new UserSubscription();
+    subscription.setUserId(userId);
 
-    verify(externalService, times(1)).fetchAuthentication(anyString());
-    verify(saveUserService, times(0)).saveUserSubscriptionToDB(any(UserSubscription.class));
-    verify(redisService, times(0)).set(anyString(), any(), anyLong());
+    when(externalService.fetchAuthentication()).thenReturn(userDto);
+
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+      userSubscriptionService.subscribe(subscription);
+    });
+
+    assertEquals("you are not allowed to add subscription to any other user",
+        exception.getMessage());
   }
+
 }

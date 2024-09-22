@@ -3,15 +3,16 @@ package com.example.user_subscription_service.dto;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class User {
+public class UserDto {
 
-  @Id
+  @NotNull(message = "ID cannot be null")
   private Long id;
 
   @Email(message = "Email should be valid")
@@ -27,8 +28,4 @@ public class User {
 
   @PastOrPresent(message = "Creation date cannot be in the future")
   private LocalDateTime updatedAt;
-
-  private String role;
-
-  private String jwtToken;
 }

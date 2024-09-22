@@ -1,5 +1,6 @@
 package com.example.user_subscription_service.controller;
 
+import com.example.user_subscription_service.context.JwtContextHolder;
 import com.example.user_subscription_service.exception.UserSubscriptionException;
 import com.example.user_subscription_service.model.UserSubscription;
 import com.example.user_subscription_service.service.UserSubscriptionServiceInterface;
@@ -27,27 +28,48 @@ public class UserSubscriptionController implements UserSubscriptionControllerInt
 
   private final UserSubscriptionServiceInterface userSubscriptionService;
 
+  /**
+   * Subscribe to a subscription plan
+   *
+   * @param userSubscription    the subscription plan to subscribe to
+   * @param authorizationHeader the authorization header
+   * @return the created subscription
+   */
   @Override
   @PostMapping("/subscribe")
   @ResponseStatus(HttpStatus.OK)
   public final UserSubscription subscribe(
       @Valid @RequestBody final UserSubscription userSubscription, @RequestHeader(
       "Authorization") final String authorizationHeader) {
-    String jwtToken = authorizationHeader.substring(7);
+    JwtContextHolder.setJwtToken(authorizationHeader.substring(7));
     try {
-      return userSubscriptionService.subscribe(userSubscription, jwtToken);
+      return userSubscriptionService.subscribe(userSubscription);
     } catch (Exception e) {
       System.out.println(e);
       throw new UserSubscriptionException("subscription failed", e);
+    } finally {
+      JwtContextHolder.clear();
     }
   }
 
+  /**
+   * Get the subscriptions of the user
+   *
+   * @param userId              the user's id
+   * @param authorizationHeader the authorization header
+   * @return a list of the user's subscriptions
+   */
   @Override
   @GetMapping("/{userId}")
   @ResponseStatus(HttpStatus.OK)
-  public final List<UserSubscription> getUserSubscriptions(@Valid @PathVariable final Long userId, @RequestHeader(
-      "Authorization") final String authorizationHeader) {
-    String jwtToken = authorizationHeader.substring(7);
-    return userSubscriptionService.getUserSubscriptions(userId,jwtToken);
+  public final List<UserSubscription> getUserSubscriptions(@Valid @PathVariable final Long userId,
+                                                           @RequestHeader(
+                                                               "Authorization") final String authorizationHeader) {
+    JwtContextHolder.setJwtToken(authorizationHeader.substring(7));
+    try {
+      return userSubscriptionService.getUserSubscriptions(userId);
+    } finally {
+      JwtContextHolder.clear();
+    }
   }
 }

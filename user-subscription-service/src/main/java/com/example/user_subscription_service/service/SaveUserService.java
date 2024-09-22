@@ -1,6 +1,6 @@
 package com.example.user_subscription_service.service;
 
-import com.example.user_subscription_service.dto.Subscription;
+import com.example.user_subscription_service.dto.SubscriptionDto;
 import com.example.user_subscription_service.model.UserSubscription;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +15,13 @@ public class SaveUserService implements SaveUserServiceInterface {
 
   @Override
   public final UserSubscription saveUserSubscriptionToDB(final UserSubscription userSubscription) {
-    final Subscription subscription = externalService.fetchSubscription(
+    final SubscriptionDto subscription = externalService.fetchSubscription(
         userSubscription.getSubscriptionId());
     checkNull(subscription, userSubscription);
     return subscriptionMessageProcessor.publishKafkaMessage(subscription, userSubscription);
   }
 
-  private void checkNull(final Subscription subscription, final UserSubscription userSubscription) {
+  private void checkNull(final SubscriptionDto subscription, final UserSubscription userSubscription) {
     if (Objects.isNull(subscription)) {
       System.out.println(
           "Subscription details not found for ID: " + userSubscription.getSubscriptionId());

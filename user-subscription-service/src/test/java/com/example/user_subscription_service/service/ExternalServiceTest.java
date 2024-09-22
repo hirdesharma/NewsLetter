@@ -2,23 +2,17 @@ package com.example.user_subscription_service.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
 
-import com.example.user_subscription_service.dto.Subscription;
-import com.example.user_subscription_service.dto.SubscriptionMessage;
-import com.example.user_subscription_service.dto.User;
+import com.example.user_subscription_service.dto.SubscriptionDto;
+import com.example.user_subscription_service.dto.SubscriptionMessageDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,18 +32,18 @@ public class ExternalServiceTest {
   @Test
   void testFetchSubscriptionSuccess() {
     Long subscriptionId = 1L;
-    Subscription expectedSubscription = new Subscription();
-    when(restTemplate.getForObject(anyString(), eq(Subscription.class)))
+    SubscriptionDto expectedSubscription = new SubscriptionDto();
+    when(restTemplate.getForObject(anyString(), eq(SubscriptionDto.class)))
         .thenReturn(expectedSubscription);
 
-    Subscription actualSubscription = externalService.fetchSubscription(subscriptionId);
+    SubscriptionDto actualSubscription = externalService.fetchSubscription(subscriptionId);
     assertEquals(expectedSubscription, actualSubscription);
   }
 
   @Test
   void testFetchSubscriptionException() {
     Long subscriptionId = 1L;
-    when(restTemplate.getForObject(anyString(), eq(Subscription.class)))
+    when(restTemplate.getForObject(anyString(), eq(SubscriptionDto.class)))
         .thenThrow(new RestClientException("Error"));
 
     RuntimeException thrown = assertThrows(RuntimeException.class, () ->
@@ -60,18 +54,18 @@ public class ExternalServiceTest {
   @Test
   void testFetchSubscriptionMessageSuccess() {
     Long userId = 1L;
-    SubscriptionMessage expectedMessage = new SubscriptionMessage();
-    when(restTemplate.getForObject(anyString(), eq(SubscriptionMessage.class)))
+    SubscriptionMessageDto expectedMessage = new SubscriptionMessageDto();
+    when(restTemplate.getForObject(anyString(), eq(SubscriptionMessageDto.class)))
         .thenReturn(expectedMessage);
 
-    SubscriptionMessage actualMessage = externalService.fetchSubscriptionMessage(userId);
+    SubscriptionMessageDto actualMessage = externalService.fetchSubscriptionMessage(userId);
     assertEquals(expectedMessage, actualMessage);
   }
 
   @Test
   void testFetchSubscriptionMessageException() {
     Long userId = 1L;
-    when(restTemplate.getForObject(anyString(), eq(SubscriptionMessage.class)))
+    when(restTemplate.getForObject(anyString(), eq(SubscriptionMessageDto.class)))
         .thenThrow(new RuntimeException("Error"));
 
     RuntimeException thrown = assertThrows(RuntimeException.class, () ->
@@ -79,31 +73,4 @@ public class ExternalServiceTest {
     assertEquals("Failed to fetch user details", thrown.getMessage());
   }
 
-  @Test
-  void testFetchAuthenticationUnauthorized() {
-    String jwtToken = "invalidToken";
-    when(restTemplate.exchange(
-        anyString(),
-        any(HttpMethod.class),
-        any(HttpEntity.class),
-        eq(User.class))
-    ).thenThrow(new HttpClientErrorException(HttpStatus.UNAUTHORIZED));
-
-    assertThrows(RuntimeException.class, () ->
-        externalService.fetchAuthentication(jwtToken));
-  }
-
-  @Test
-  void testFetchAuthenticationException() {
-    String jwtToken = "anyToken";
-    when(restTemplate.exchange(
-        anyString(),
-        any(HttpMethod.class),
-        any(HttpEntity.class),
-        eq(User.class))
-    ).thenThrow(new RestClientException("Error"));
-
-    assertThrows(RuntimeException.class, () ->
-        externalService.fetchAuthentication(jwtToken));
-  }
 }

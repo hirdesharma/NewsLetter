@@ -9,7 +9,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.example.user_subscription_service.dto.Subscription;
+import com.example.user_subscription_service.dto.SubscriptionDto;
 import com.example.user_subscription_service.model.UserSubscription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ class SaveUserServiceTest {
     UserSubscription userSubscription = new UserSubscription();
     userSubscription.setSubscriptionId(1L);
 
-    Subscription subscription = new Subscription();
+    SubscriptionDto subscription = new SubscriptionDto();
     subscription.setId(1L);
 
     UserSubscription expectedUserSubscription = new UserSubscription();
@@ -75,7 +75,7 @@ class SaveUserServiceTest {
     assertEquals("Subscription details not found for ID: 1", thrown.getMessage());
     verify(externalService, times(1)).fetchSubscription(userSubscription.getSubscriptionId());
     verify(subscriptionMessageProcessor, never())
-        .publishKafkaMessage(any(Subscription.class), any(UserSubscription.class));
+        .publishKafkaMessage(any(SubscriptionDto.class), any(UserSubscription.class));
   }
 
   @Test
@@ -95,6 +95,6 @@ class SaveUserServiceTest {
     assertEquals("Failed to fetch subscription", thrown.getMessage());
     verify(externalService, times(1)).fetchSubscription(userSubscription.getSubscriptionId());
     verify(subscriptionMessageProcessor, never())
-        .publishKafkaMessage(any(Subscription.class), any(UserSubscription.class));
+        .publishKafkaMessage(any(SubscriptionDto.class), any(UserSubscription.class));
   }
 }

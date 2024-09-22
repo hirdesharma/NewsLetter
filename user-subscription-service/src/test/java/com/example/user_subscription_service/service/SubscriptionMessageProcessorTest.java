@@ -13,8 +13,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.example.user_subscription_service.dto.Subscription;
-import com.example.user_subscription_service.dto.SubscriptionMessage;
+import com.example.user_subscription_service.dto.SubscriptionDto;
+import com.example.user_subscription_service.dto.SubscriptionMessageDto;
 import com.example.user_subscription_service.model.UserSubscription;
 import com.example.user_subscription_service.repository.UserSubscriptionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -51,14 +51,14 @@ class SubscriptionMessageProcessorTest {
 
   @Test
   void testPublishKafkaMessageSuccess() throws JsonProcessingException {
-    Subscription subscription = new Subscription();
+    SubscriptionDto subscription = new SubscriptionDto();
     subscription.setDuration(10L);
 
     UserSubscription userSubscription = new UserSubscription();
     userSubscription.setUserId(1L);
     userSubscription.setSubscriptionId(100L);
 
-    SubscriptionMessage subscriptionMessage = new SubscriptionMessage();
+    SubscriptionMessageDto subscriptionMessage = new SubscriptionMessageDto();
     subscriptionMessage.setId(1L);
 
     when(externalService.fetchSubscriptionMessage(userSubscription.getUserId()))
@@ -83,14 +83,14 @@ class SubscriptionMessageProcessorTest {
   @Test
   void testPublishKafkaMessageSerializationError() throws JsonProcessingException {
     // Arrange
-    Subscription subscription = new Subscription();
+    SubscriptionDto subscription = new SubscriptionDto();
     subscription.setDuration(10L);
 
     UserSubscription userSubscription = new UserSubscription();
     userSubscription.setUserId(1L);
     userSubscription.setSubscriptionId(100L);
 
-    SubscriptionMessage subscriptionMessage = new SubscriptionMessage();
+    SubscriptionMessageDto subscriptionMessage = new SubscriptionMessageDto();
     subscriptionMessage.setId(1L);
 
     when(externalService.fetchSubscriptionMessage(userSubscription.getUserId()))
@@ -115,7 +115,7 @@ class SubscriptionMessageProcessorTest {
 
   @Test
   void testPublishKafkaMessageNullSubscriptionMessage() {
-    Subscription subscription = new Subscription();
+    SubscriptionDto subscription = new SubscriptionDto();
     subscription.setDuration(10L);
 
     UserSubscription userSubscription = new UserSubscription();

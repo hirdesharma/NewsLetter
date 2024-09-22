@@ -1,6 +1,6 @@
 package com.example.user_subscription_service.service;
 
-import com.example.user_subscription_service.dto.User;
+import com.example.user_subscription_service.dto.UserDto;
 import com.example.user_subscription_service.model.UserSubscription;
 import com.example.user_subscription_service.repository.UserSubscriptionRepository;
 import java.util.List;
@@ -17,9 +17,8 @@ public class UserSubscriptionService implements UserSubscriptionServiceInterface
   private final ExternalService externalService;
 
   @Override
-  public final List<UserSubscription> getUserSubscriptions(final Long userId,
-                                                           final String jwtToken) {
-    final User user = externalService.fetchAuthentication(jwtToken);
+  public final List<UserSubscription> getUserSubscriptions(final Long userId) {
+    final UserDto user = externalService.fetchAuthentication();
     if (!user.getId().equals(userId)) {
       System.out.println("you are not allowed to add subscription to any other user");
       throw new IllegalArgumentException(
@@ -29,11 +28,8 @@ public class UserSubscriptionService implements UserSubscriptionServiceInterface
   }
 
   @Override
-  public final UserSubscription subscribe(final UserSubscription userSubscription,
-                                          final String jwtToken) {
-
-    final User user = externalService.fetchAuthentication(jwtToken);
-
+  public final UserSubscription subscribe(final UserSubscription userSubscription) {
+    final UserDto user = externalService.fetchAuthentication();
     if (!user.getId().equals(userSubscription.getUserId())) {
       System.out.println("you are not allowed to add subscription to any other user");
       throw new IllegalArgumentException(
@@ -45,7 +41,7 @@ public class UserSubscriptionService implements UserSubscriptionServiceInterface
 
     final String cacheKey = "userSubscriptions:" + userSubscription.getUserId();
     final List<UserSubscription> subscriptions =
-        getUserSubscriptions(userSubscription.getUserId(),jwtToken);
+        getUserSubscriptions(userSubscription.getUserId());
 
     redisService.set(cacheKey, subscriptions, 3600L);
 

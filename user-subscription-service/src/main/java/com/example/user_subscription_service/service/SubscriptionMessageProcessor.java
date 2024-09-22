@@ -1,7 +1,8 @@
 package com.example.user_subscription_service.service;
 
-import com.example.user_subscription_service.dto.Subscription;
-import com.example.user_subscription_service.dto.SubscriptionMessage;
+import com.example.user_subscription_service.dto.SubscriptionDto;
+import com.example.user_subscription_service.dto.SubscriptionMessageDto;
+import com.example.user_subscription_service.dto.UserDto;
 import com.example.user_subscription_service.exception.UserSubscriptionException;
 import com.example.user_subscription_service.model.UserSubscription;
 import com.example.user_subscription_service.repository.UserSubscriptionRepository;
@@ -26,7 +27,7 @@ public class SubscriptionMessageProcessor implements SubscriptionMessageProcesso
   private String kafkaTopic;
 
   @Override
-  public final UserSubscription publishKafkaMessage(final Subscription subscription,
+  public final UserSubscription publishKafkaMessage(final SubscriptionDto subscription,
                                                     final UserSubscription userSubscription) {
     final long duration = subscription.getDuration();
     final LocalDate now = LocalDate.now();
@@ -37,15 +38,14 @@ public class SubscriptionMessageProcessor implements SubscriptionMessageProcesso
     userSubscription.setUpdatedAt(now);
     userSubscription.setIsActive(true);
 
-    SubscriptionMessage subscriptionMessage =
-        externalService.fetchSubscriptionMessage(userSubscription.getUserId());
+    final UserDto user = externalService.fetchAuthentication();
 
     try {
       final ObjectMapper objectMapper = new ObjectMapper();
       objectMapper.registerModule(new JavaTimeModule());
       objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-      final String messageJson = objectMapper.writeValueAsString(subscriptionMessage);
+      final String messageJson = objectMapper.writeValueAsString(user);
       System.out.println("Successfully serialized: " + messageJson);
       kafkaTemplate.send(kafkaTopic, messageJson);
     } catch (JsonProcessingException e) {

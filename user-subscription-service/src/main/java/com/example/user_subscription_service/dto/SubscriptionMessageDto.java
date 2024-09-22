@@ -1,36 +1,33 @@
 package com.example.user_subscription_service.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class SubscriptionMessage {
-  @Id
-  @Column(name = "id")
+public class SubscriptionMessageDto {
+
+  @NotNull(message = "ID cannot be null")
   private Long id;
 
-  @Column(name = "email", nullable = false, unique = true)
   @Email(message = "Email should be valid")
   @NotBlank(message = "Email cannot be blank")
+  @Size(max = 255, message = "Email cannot exceed 255 characters")
   private String email;
 
-  @Column(name = "password", nullable = false)
   @NotBlank(message = "Password cannot be blank")
   @Size(min = 8, message = "Password must be at least 8 characters long")
   private String password;
 
-  @Column(name = "createdAt", nullable = false, updatable = false)
+  @NotNull(message = "CreatedAt timestamp cannot be null")
   @PastOrPresent(message = "Creation date cannot be in the future")
   private LocalDateTime createdAt;
 
-  @Column(name = "updatedAt", nullable = false)
-  @PastOrPresent(message = "Creation date cannot be in the future")
+  @NotNull(message = "UpdatedAt timestamp cannot be null")
+  @PastOrPresent(message = "Updated date cannot be in the future")
   private LocalDateTime updatedAt;
-
 }
